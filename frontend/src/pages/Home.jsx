@@ -1,14 +1,22 @@
-import { useState, useEffect } from "react";
-import Axios from "axios";
+import { useEffect } from "react";
 import WorkoutDetails from "../components/WorkoutDetails";
 import WorkoutForm from "../components/WorkoutForm";
+import { useWorkoutsContext } from "../hooks/useWorkoutsContext";
 
 const Home = () => {
-  const [workouts, setWorkouts] = useState(null);
+  const { workouts, dispatch } = useWorkoutsContext();
+
   useEffect(() => {
-    Axios.get(import.meta.env.VITE_WORKOUTS_API_URL).then((res) =>
-      setWorkouts(res.data)
-    );
+    const fetchWorkouts = async () => {
+      const response = await fetch(import.meta.env.VITE_WORKOUTS_API_URL);
+      const json = await response.json();
+
+      if (response.ok) {
+        dispatch({ type: "SET_WORKOUTS", payload: json });
+      }
+    };
+
+    fetchWorkouts();
   }, []);
 
   return (
