@@ -1,17 +1,17 @@
 import { useState } from "react";
 import { useAuthContext } from "./useAuthContext";
 
-export const useSignup = () => {
+export const useLogin = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
   const { dispatch } = useAuthContext();
 
-  const signup = async (email, password) => {
+  const login = async (email, password) => {
     setIsLoading(true);
     setError(null);
 
     const response = await fetch(
-      import.meta.env.VITE_USER_API_URL + "/signup",
+      import.meta.env.VITE_USER_API_URL + "/login",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -35,5 +35,5 @@ export const useSignup = () => {
     }
   };
 
-  return { signup, isLoading, error };
+  return { login, isLoading, error };
 };
